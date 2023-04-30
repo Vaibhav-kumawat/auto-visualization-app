@@ -4,17 +4,7 @@ import streamlit as st
 from pandas_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 
-st.set_page_config(
-    page_title="Ex-stream-ly Cool App",
-    page_icon="🧊",
-    layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
-    }
-)
+
 
 # Web App Title
 st.markdown('''
@@ -29,12 +19,13 @@ with st.sidebar.header('1. Upload your files here'):
     merge_file = st.sidebar.file_uploader("Upload another file",type=["csv","xlsx","xls"])
     st.write(uploaded_file)
     st.write(merge_file) 
+# Pandas Profiling Report
 
-    @st.cache
+    @st.cache_data
     def load_csv(file):
         csv = pd.read_csv(file)
         return csv
-    @st.cache
+    @st.cache_data
     def load_excel(file):
         excel = pd.read_excel(file)
         return excel
@@ -90,7 +81,7 @@ else:
     st.info('Awaiting for file to be uploaded.')
     if st.button('Press to use Example Dataset'):
         # Example data
-        @st.cache
+        @st.cache_data
         def load_data():
             a = pd.DataFrame(
                 np.random.rand(100, 5),
@@ -99,4 +90,8 @@ else:
             return a
         df = load_data()
         pr = ProfileReport(df, explorative=True)
-       
+        st.header('**Input DataFrame**')
+        st.write(df)
+        st.write('---')
+        st.header('**Pandas Profiling Report**')
+        st_profile_report(pr)
