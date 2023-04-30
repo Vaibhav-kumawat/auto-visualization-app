@@ -21,11 +21,11 @@ with st.sidebar.header('1. Upload your files here'):
     st.write(merge_file) 
 # Pandas Profiling Report
 
-    @st.cache
+    @st.cache_data
     def load_csv(file):
         csv = pd.read_csv(file)
         return csv
-    @st.cache
+    @st.cache_data
     def load_excel(file):
         excel = pd.read_excel(file)
         return excel
@@ -81,7 +81,7 @@ else:
     st.info('Awaiting for file to be uploaded.')
     if st.button('Press to use Example Dataset'):
         # Example data
-        @st.cache
+        @st.cache_data
         def load_data():
             a = pd.DataFrame(
                 np.random.rand(100, 5),
